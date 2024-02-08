@@ -55,4 +55,68 @@ app.post("/users", async function (request, response) {
   response.send(await User.create({ name, email }));
 });
 
+//Delete from users
+app.delete("/users/:id", async function (request, response) {
+  console.log(request.params);
+  const { id } = request.params;
+  const NOT_FOUND_MSG = { msg: "user not found" };
+  const obj = await User.destroy({
+    where: {
+      id: id,
+    },
+  });
+  //response.send(obj ? obj : NOT_FOUND_MSG);
+  obj ? response.send("deleted") : response.status(404).send(NOT_FOUND_MSG);
+});
+
+//update in users
+// app.put("/users", async function (request, response) {
+//   console.log(request.query);
+//   const { name } = request.query;
+//   const NOT_FOUND_MSG = { msg: "user not found" };
+//   const obj = await User.update(
+//     { name },
+//     {
+//       where: {
+//         name: "seetha",
+//       },
+//     }
+//   );
+//   //response.send(obj ? obj : NOT_FOUND_MSG);
+//   obj ? response.send(obj) : response.status(404).send(NOT_FOUND_MSG);
+// });
+
+//update from body
+app.put("/users", async function (request, response) {
+  console.log(request.body);
+  const { name } = request.body;
+  const NOT_FOUND_MSG = { msg: "user not found" };
+  const obj = await User.update(
+    { name },
+    {
+      where: {
+        name: "neha",
+      },
+    }
+  );
+  //response.send(obj ? obj : NOT_FOUND_MSG);
+  obj ? response.send(obj) : response.status(404).send(NOT_FOUND_MSG);
+});
+
+app.put("/users", async function (request, response) {
+  console.log(request.query);
+  const { name } = request.query;
+  const NOT_FOUND_MSG = { msg: "user not found" };
+  const obj = await User.update(
+    { name },
+    {
+      where: {
+        name: "seetha",
+      },
+    }
+  );
+  //response.send(obj ? obj : NOT_FOUND_MSG);
+  obj ? response.send(obj) : response.status(404).send(NOT_FOUND_MSG);
+});
+
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
